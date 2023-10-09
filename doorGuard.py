@@ -18,18 +18,21 @@ def sendMailMessage(body):
 	msg['To'] = to_email_addr
 	msg['Subject'] = 'Doorguard alert'
 
-	# Connecting to server and sending email
-	# Edit the following line with your provider's SMTP server details
-	server = smtplib.SMTP('smtp.gmail.com', 587)
-
-	# Comment out the next line if your email provider doesn't use TLS
-	server.starttls()
-
-	# Login to the SMTP server and send the message
-	server.login(from_email_addr, from_email_pass)
-	server.send_message(msg)
-	server.quit()
-
+	try:
+		# Connecting to server and sending email
+		# Edit the following line with your provider's SMTP server details
+		server = smtplib.SMTP('smtp.gmail.com', 587)
+	
+		# Comment out the next line if your email provider doesn't use TLS
+		server.starttls()
+	
+		# Login to the SMTP server and send the message
+		server.login(from_email_addr, from_email_pass)
+		server.send_message(msg)
+		server.quit()
+	except:
+		writeToLog("ERROR! Can't send mail. Check configuration.")
+		
 # Log events in the system (make sure it has the right permissions to write to the file)
 def writeToLog(message):
 	logPath = "/var/log/"
